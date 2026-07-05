@@ -1,9 +1,9 @@
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
+using TestMod.TestModCode.Character;
 
 namespace TestMod.TestModCode.Powers;
 
@@ -20,71 +20,33 @@ public sealed class EvidencePower : CustomPowerModel
             "You have {Amount} Evidence.",
             "You have {Amount} Evidence.");
 
-    // 供明确写有“Lose Evidence”的卡牌调用，不会由普通攻击自动触发。
-    public static async Task<int> LoseEvidence(
-        PlayerChoiceContext choiceContext,
-        Creature owner,
-        int amount,
-        CardModel? source)
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        EvidencePower? evidence = owner.GetPower<EvidencePower>();
-        if (evidence is null || amount <= 0)
+        // 双重检查角色和卡牌所有者，确保该惩罚不会影响其他角色。
+        bool isLawyer = Owner.Player?.Character is LawyerCharacter;
+        bool isOwnersAttack = cardPlay.Card.Owner == Owner.Player
+            && cardPlay.Card.Type == CardType.Attack;
+
+        if (!isLawyer || !isOwnersAttack)
         {
-            return 0;
+            return;
         }
 
-        // 最多只扣除当前拥有的 Evidence，避免资源变成负数。
-        int evidenceLost = Math.Min(amount, evidence.Amount);
+        // Evidence 惩罚是每次攻击消耗 1/4 层 Evidence，向下取整。
+        int evidenceLost = (int)(Amount / 4f);
+        if (evidenceLost <= 0)
+        {
+            return;
+        }
+
+        // AfterCardPlayed 在卡牌自身效果完成后运行，所以先造成伤害，再扣 Evidence。
         await PowerCmd.ModifyAmount(
             choiceContext,
-            evidence,
+            this,
             -evidenceLost,
-            owner,
-            source);
+            Owner,
+            cardPlay.Card);
 
-        return evidenceLost;
-    }
-
-    // Spend 会扣除 Evidence，并记录本回合消费量和本场战斗消费次数。
-    public static async Task<int> SpendEvidence(
-        PlayerChoiceContext choiceContext,
-        Creature owner,
-        int amount,
-        CardModel? source)
-    {
-        int evidenceSpent = await LoseEvidence(
-            choiceContext,
-            owner,
-            amount,
-            source);
-
-        if (evidenceSpent <= 0)
-        {
-            return 0;
-        }
-
-        EvidenceSpendTrackerPower? tracker = owner.GetPower<EvidenceSpendTrackerPower>();
-        if (tracker is null)
-        {
-            await PowerCmd.Apply<EvidenceSpendTrackerPower>(
-                choiceContext,
-                owner,
-                1,
-                owner,
-                source);
-            tracker = owner.GetPower<EvidenceSpendTrackerPower>();
-        }
-        else
-        {
-            await PowerCmd.ModifyAmount(
-                choiceContext,
-                tracker,
-                1,
-                owner,
-                source);
-        }
-
-        tracker?.RecordSpendThisTurn(evidenceSpent);
-        return evidenceSpent;
+        MainFile.Logger.Info($"Lawyer attack penalty: Evidence reduced by {evidenceLost} to {Amount}.");
     }
 }

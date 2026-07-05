@@ -17,7 +17,7 @@ public sealed class StarterSkill1 : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Starter Skill 1", "Exhaust a card. Gain 4 Evidence.");
+        new CardLoc("Starter Skill 1", "Exhaust a card. Gain 3 Evidence.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -41,7 +41,7 @@ public sealed class StarterSkill1 : LawyerCard
         await PowerCmd.Apply<EvidencePower>(
             choiceContext,
             Owner.Creature,
-            4,
+            3,
             Owner.Creature,
             this);
     }

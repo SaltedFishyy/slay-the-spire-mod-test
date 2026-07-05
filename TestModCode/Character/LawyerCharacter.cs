@@ -14,7 +14,7 @@ public sealed class LawyerCharacter : PlaceholderCharacterModel
 {
     // 角色与卡池共用的内部标识和占位主题色。
     public const string CharacterId = "Lawyer";
-    public static readonly Color Color = new("6b7280");
+    public static readonly Color Color = new("612D53");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Neutral;

@@ -26,7 +26,7 @@ public sealed class CrossExamine : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Cross-Examine", "Deal {CalculatedDamage} damage (base damage plus 50% of your Evidence, rounded down).");
+        new CardLoc("Cross-Examine", "Deal {CalculatedDamage} damage + 50% of your Evidence.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -41,7 +41,7 @@ public sealed class CrossExamine : LawyerCard
 
     protected override void OnUpgrade()
     {
-        // 升级把基础伤害从 8 提高到 10，Evidence 加成由计算函数提高到 70%。
+        // 升级把基础伤害从 8 提高到 10，Evidence 加成仍然是 50%。
         DynamicVars.CalculationBase.UpgradeValueBy(2);
     }
 }
