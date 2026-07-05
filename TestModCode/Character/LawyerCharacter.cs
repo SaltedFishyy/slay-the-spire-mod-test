@@ -44,16 +44,16 @@ public sealed class LawyerCharacter : PlaceholderCharacterModel
     // Phase 1 起始牌组：4 张打击、4 张防御和两张机制测试卡。
     public override IEnumerable<CardModel> StartingDeck =>
     [
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<StrikeIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<DefendIronclad>(),
-        ModelDb.Card<StarterSkill1>(),
-        ModelDb.Card<StarterAttack1>()
+        ModelDb.Card<LawyerStrike>(),
+        ModelDb.Card<LawyerStrike>(),
+        ModelDb.Card<LawyerStrike>(),
+        ModelDb.Card<LawyerStrike>(),
+        ModelDb.Card<LawyerDefend>(),
+        ModelDb.Card<LawyerDefend>(),
+        ModelDb.Card<LawyerDefend>(),
+        ModelDb.Card<LawyerDefend>(),
+        ModelDb.Card<CollectingEvidence>(),
+        ModelDb.Card<Statement>()
     ];
 
     // CaseFile 是 Lawyer 当前唯一的起始遗物。

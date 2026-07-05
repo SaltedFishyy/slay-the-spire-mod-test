@@ -10,3 +10,9 @@ packages/
 .editorconfig
 *.user
 Directory.Build.props
+.build-verify/
+bin/
+obj/
+*.dll
+*.pdb
+*.pck
