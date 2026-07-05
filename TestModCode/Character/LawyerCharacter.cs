@@ -16,15 +16,26 @@ public sealed class LawyerCharacter : PlaceholderCharacterModel
     public const string CharacterId = "Lawyer";
     public static readonly Color Color = new("612D53");
 
-    public override Color NameColor => Color;
+    public override Color NameColor => LawyerCharacter.Color;
     public override CharacterGender Gender => CharacterGender.Neutral;
-    public override int StartingHp => 70;
+    public override int StartingHp => 80;
+    // 游戏内左上角、统计界面、每日挑战和历史记录等位置使用的 Lawyer 头像纹理。
+    public override string? CustomIconTexturePath =>
+        "res://Resources/Images/Character/LawyerProfile.png";
+
+    // 地图上的角色标记以及多人模式表情轮盘使用的 Lawyer 头像。
+    public override string? CustomMapMarkerPath =>
+        "res://Resources/Images/Character/LawyerProfile.png";
+
+    // 角色选择界面按钮上显示的小型 Lawyer 角色头像，不是选中后的大型背景图。
+    public override string? CustomCharacterSelectIconPath =>
+        "res://Resources/Images/Character/LawyerPortrait.png";
 
     public override List<(string, string)>? Localization =>
         new CharacterLoc(
             "Lawyer",
             "the Lawyer",
-            "A prototype character who builds Evidence.",
+            "A theatrical attorney who builds Evidence, controls the courtroom, and turns proof into decisive attacks.",
             "them",
             "they",
             "theirs",
