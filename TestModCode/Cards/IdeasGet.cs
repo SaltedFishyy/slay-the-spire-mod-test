@@ -9,21 +9,21 @@ using TestMod.TestModCode.Powers;
 namespace TestMod.TestModCode.Cards;
 
 // 普通攻击牌占位实现：造成伤害后获得 Evidence。
-public sealed class EvidenceGet : LawyerCard
+public sealed class IdeasGet : LawyerCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(8, ValueProp.Move),
-        new DynamicVar("Evidence", 3)
+        new DynamicVar("Evidence", 4)
     ];
 
-    public EvidenceGet()
+    public IdeasGet()
         : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Evidence Get!", "Deal {Damage} damage. Gain {Evidence} Evidence.");
+        new CardLoc("Ideas Get!", "Deal {Damage} damage. Gain {Evidence} Evidence.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -34,17 +34,16 @@ public sealed class EvidenceGet : LawyerCard
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        await PowerCmd.Apply<EvidencePower>(
+        await EvidenceHelper.Gain(
             choiceContext,
             Owner.Creature,
             DynamicVars["Evidence"].IntValue,
-            Owner.Creature,
             this);
     }
 
     protected override void OnUpgrade()
     {
-        // 升级后伤害从 8 提高到 10，获得的 Evidence 从 3 提高到 4。
+        // 升级后伤害从 8 提高到 10，获得的 Evidence 从 4 提高到 5。
         DynamicVars.Damage.UpgradeValueBy(2);
         DynamicVars["Evidence"].UpgradeValueBy(1);
     }

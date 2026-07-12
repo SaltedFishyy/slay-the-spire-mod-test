@@ -16,7 +16,7 @@ public sealed class Statement : LawyerCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(4, ValueProp.Move),
+        new DamageVar(6, ValueProp.Move),
         ..MakeCalculatedVar(
             "EvidenceDamage",
             0,
@@ -35,7 +35,7 @@ public sealed class Statement : LawyerCard
 
     private int GetEvidenceDamage()
     {
-        int evidence = Owner.Creature.GetPower<EvidencePower>()?.Amount ?? 0;
+        int evidence = EvidenceHelper.Get(Owner?.Creature);
         return IsUpgraded ? (int)Math.Floor(evidence * 1.5m) : evidence;
     }
 
@@ -56,6 +56,6 @@ public sealed class Statement : LawyerCard
     protected override void OnUpgrade()
     {
         EnergyCost.UpgradeBy(-1);
-        DynamicVars.Damage.UpgradeValueBy(-4);
+        DynamicVars.Damage.UpgradeValueBy(2);
     }
 }

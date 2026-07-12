@@ -3,18 +3,26 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 using TestMod.TestModCode.Powers;
 
 namespace TestMod.TestModCode.Cards;
 
-// 根据本回合主动消费的 Evidence 总量造成三倍伤害。
+// Spend Evidence as an additional cost, then deal fixed damage and apply Weak.
 public sealed class ClosingArgument : LawyerCard
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        MakeCalculatedDamage(
-            0,
-            (card, _) =>
-                (card.Owner.Creature.GetPower<EvidenceSpendTrackerPower>()?.EvidenceSpentThisTurn ?? 0) * 3);
+    [
+        new DamageVar(10, ValueProp.Move),
+        new DynamicVar("EvidenceCost", 3),
+        new DynamicVar("Weak", 1)
+    ];
+
+    protected override bool IsPlayable =>
+        base.IsPlayable &&
+        (Owner?.Creature is not { } creature ||
+         EvidenceHelper.Get(creature) >= DynamicVars["EvidenceCost"].IntValue);
 
     public ClosingArgument()
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
@@ -22,21 +30,39 @@ public sealed class ClosingArgument : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Closing Argument", "Deal {CalculatedDamage} damage, equal to 3 times the Evidence spent this turn.");
+        new CardLoc("Closing Argument", "Spend {EvidenceCost} Evidence. Deal {Damage} damage. Apply {Weak} Weak.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
+        bool paid = await EvidenceHelper.Spend(
+            choiceContext,
+            Owner.Creature,
+            DynamicVars["EvidenceCost"].IntValue,
+            this);
+        if (!paid)
+        {
+            return;
+        }
+
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
+
+        await PowerCmd.Apply<WeakPower>(
+            choiceContext,
+            cardPlay.Target,
+            DynamicVars["Weak"].IntValue,
+            Owner.Creature,
+            this);
     }
 
     protected override void OnUpgrade()
     {
-        // 升级只把费用从 1 降为 0，伤害公式不变。
         EnergyCost.UpgradeBy(-1);
+        DynamicVars.Damage.UpgradeValueBy(2);
+        DynamicVars["Weak"].UpgradeValueBy(1);
     }
 }

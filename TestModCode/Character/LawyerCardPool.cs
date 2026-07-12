@@ -8,9 +8,9 @@ public sealed class LawyerCardPool : CustomCardPoolModel
 {
     // 这是卡池的内部标识，不是玩家最终看到的角色名称。
     public override string Title => LawyerCharacter.CharacterId;
-
-
     public override Color DeckEntryCardColor => LawyerCharacter.Color;
+    public override string BigEnergyIconPath =>
+        "res://Resources/Images/UI/LawyerEnergy.png";
 
     // Lawyer 是独立角色卡池，不属于无色卡池。
     public override bool IsColorless => false;

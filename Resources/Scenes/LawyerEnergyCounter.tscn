@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/Core/Nodes/Combat/NEnergyCounter.cs" id="1_counter"]
+[ext_resource type="Texture2D" path="res://Resources/Images/UI/LawyerEnergy.png" id="1_energy"]
+[ext_resource type="PackedScene" path="res://scenes/vfx/energy/ironclad/ironclad_energy_vfx_back.tscn" id="2_vfx_back"]
+[ext_resource type="PackedScene" path="res://scenes/vfx/energy/ironclad/ironclad_energy_vfx_front.tscn" id="3_vfx_front"]
+[ext_resource type="FontVariation" path="res://themes/kreon_bold_shared.tres" id="4_font"]
+[ext_resource type="Script" path="res://addons/mega_text/MegaLabel.cs" id="5_label"]
+
+[sub_resource type="FontVariation" id="FontVariation_lawyer"]
+base_font = ExtResource("4_font")
+spacing_glyph = 2
+
+[node name="LawyerEnergyCounter" type="Control"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 128.0
+offset_bottom = 128.0
+pivot_offset = Vector2(64, 64)
+mouse_filter = 2
+script = ExtResource("1_counter")
+
+[node name="EnergyVfxBack" parent="." instance=ExtResource("2_vfx_back")]
+unique_name_in_owner = true
+position = Vector2(64, 64)
+
+[node name="Layers" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="EnergyIcon" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_energy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RotationLayers" type="Control" parent="Layers"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="EnergyVfxFront" parent="." instance=ExtResource("3_vfx_front")]
+unique_name_in_owner = true
+position = Vector2(64, 64)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+text = "3/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 0.964706, 0.886275, 1)
+theme_override_colors/font_outline_color = Color(0.3, 0.0759, 0.051, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("FontVariation_lawyer")
+theme_override_font_sizes/font_size = 36
+script = ExtResource("5_label")
+MinFontSize = 32
+MaxFontSize = 36

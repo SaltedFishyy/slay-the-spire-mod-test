@@ -19,7 +19,7 @@ public sealed class ClassAction : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Class Action", "Costs 3 less for each time you spent Evidence this combat. Deal {Damage} damage to ALL enemies.");
+        new CardLoc("Class Action", "Whenever you gain Evidence this combat, this card costs 2 less. Deal {Damage} damage to ALL enemies.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -32,5 +32,11 @@ public sealed class ClassAction : LawyerCard
             .FromCard(this)
             .TargetingAllOpponents(combatState)
             .Execute(choiceContext);
+    }
+
+    protected override void OnUpgrade()
+    {
+        // 升级只把全体伤害从 20 提高到 26。
+        DynamicVars.Damage.UpgradeValueBy(6);
     }
 }

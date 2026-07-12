@@ -27,9 +27,14 @@ public sealed class LawyerCharacter : PlaceholderCharacterModel
     public override string? CustomMapMarkerPath =>
         "res://Resources/Images/Character/LawyerProfile.png";
 
-    // 角色选择界面按钮上显示的小型 Lawyer 角色头像，不是选中后的大型背景图。
     public override string? CustomCharacterSelectIconPath =>
-        "res://Resources/Images/Character/LawyerPortrait.png";
+        "res://Resources/Images/Character/CharacterMiniIcon.png";
+
+    public override string CustomCharacterSelectBg =>
+        "res://Resources/Scenes/LawyerSelectBackground.tscn";
+
+    public override string CustomEnergyCounterPath =>
+        "res://Resources/Scenes/LawyerEnergyCounter.tscn";
 
     public override List<(string, string)>? Localization =>
         new CharacterLoc(
@@ -67,10 +72,10 @@ public sealed class LawyerCharacter : PlaceholderCharacterModel
         ModelDb.Card<Statement>()
     ];
 
-    // CaseFile 是 Lawyer 当前唯一的起始遗物。
+    // Papers 是 Lawyer 当前唯一的起始遗物。
     public override IReadOnlyList<RelicModel> StartingRelics =>
     [
-        ModelDb.Relic<CaseFile>()
+        ModelDb.Relic<Papers>()
     ];
 
     // 将角色连接到各自独立的卡牌、遗物和药水池。

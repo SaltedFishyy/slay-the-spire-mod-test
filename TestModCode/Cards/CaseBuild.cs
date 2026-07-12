@@ -15,7 +15,7 @@ public sealed class CaseBuild : LawyerCard
     [
         new DamageVar(13, ValueProp.Move),
         new DynamicVar("EvidenceThreshold", 10),
-        new DynamicVar("EvidenceGain", 5)
+        new DynamicVar("EvidenceGain", 8)
     ];
 
     public CaseBuild()
@@ -39,11 +39,10 @@ public sealed class CaseBuild : LawyerCard
         int currentEvidence = Owner.Creature.GetPower<EvidencePower>()?.Amount ?? 0;
         if (currentEvidence < DynamicVars["EvidenceThreshold"].IntValue)
         {
-            await PowerCmd.Apply<EvidencePower>(
+            await EvidenceHelper.Gain(
                 choiceContext,
                 Owner.Creature,
                 DynamicVars["EvidenceGain"].IntValue,
-                Owner.Creature,
                 this);
         }
     }
@@ -51,8 +50,8 @@ public sealed class CaseBuild : LawyerCard
     protected override void OnUpgrade()
     {
         // 升级同步提高伤害、触发阈值和 Evidence 获得量。
-        DynamicVars.Damage.UpgradeValueBy(2);
+        DynamicVars.Damage.UpgradeValueBy(3);
         DynamicVars["EvidenceThreshold"].UpgradeValueBy(3);
-        DynamicVars["EvidenceGain"].UpgradeValueBy(3);
+        DynamicVars["EvidenceGain"].UpgradeValueBy(2);
     }
 }

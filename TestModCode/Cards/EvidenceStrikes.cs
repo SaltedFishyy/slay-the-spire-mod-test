@@ -3,41 +3,43 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
 using TestMod.TestModCode.Powers;
 
 namespace TestMod.TestModCode.Cards;
 
-// 一张普通攻击牌，先按当前 Evidence 计算伤害，再明确失去其中的 10%。
+// 普通攻击：造成固定伤害，并失去2点证据。
 public sealed class EvidenceStrikes : LawyerCard
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        MakeCalculatedDamage(
-            8,
-            (card, _) => Math.Floor(
-                (card.Owner.Creature.GetPower<EvidencePower>()?.Amount ?? 0) * 0.2m));
+    private const int EvidenceCost = 2;
 
-    public EvidenceStrikes()
-        : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
-    {
-    }
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DamageVar(12, ValueProp.Move)];
+
+    protected override bool IsPlayable =>
+        base.IsPlayable &&
+        (Owner?.Creature is not { } creature || EvidenceHelper.Get(creature) >= EvidenceCost);
+
+    public EvidenceStrikes() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Evidence Strikes", "Deal {CalculatedDamage} damage + 20% of your Evidence.");
+        new CardLoc("Evidence Strikes!", "Spend 2 Evidence. Deal {Damage} damage.");
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        // CalculatedDamage 会在全局攻击惩罚扣除 Evidence 之前读取当前层数。
-        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
+        bool paid = await EvidenceHelper.Spend(context, Owner.Creature, EvidenceCost, this);
+        if (!paid)
+        {
+            return;
+        }
+
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .Execute(choiceContext);
+            .Execute(context);
     }
 
-    protected override void OnUpgrade()
-    {
-        // 升级把基础伤害从 8 提高到 10，Evidence 加成仍然是 20%。
-        DynamicVars.CalculationBase.UpgradeValueBy(2);
-    }
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3);
 }
