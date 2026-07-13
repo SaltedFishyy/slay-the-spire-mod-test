@@ -11,6 +11,10 @@ namespace TestMod.TestModCode.Cards;
 // Phase 1 技能测试卡：验证“消耗一张牌，然后获得 Evidence”的流程。
 public sealed class CollectingEvidence : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+    "res://Resources/Images/Cards/CollectingEvidence.png";
+
+
     public CollectingEvidence()
         : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
     {
