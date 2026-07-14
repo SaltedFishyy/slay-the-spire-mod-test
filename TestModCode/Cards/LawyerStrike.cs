@@ -9,6 +9,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class LawyerStrike : LawyerCard
 {
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
+
     public override string? CustomPortraitPath =>
         "res://Resources/Images/Cards/LawyerStrike.png";
 
@@ -21,7 +23,7 @@ public sealed class LawyerStrike : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Lawyer Strike", "Deal {Damage} damage.");
+        new CardLoc("Lawyer Strike", "Deal {Damage:diff()} damage.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

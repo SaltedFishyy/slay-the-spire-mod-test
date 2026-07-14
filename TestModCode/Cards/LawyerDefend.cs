@@ -21,7 +21,7 @@ public sealed class LawyerDefend : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Lawyer Defend", "Gain {Block} Block.");
+        new CardLoc("Lawyer Defend", "Gain {Block:diff()} Block.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

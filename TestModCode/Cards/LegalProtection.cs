@@ -19,7 +19,7 @@ public sealed class LegalProtection : LawyerCard
     public LegalProtection() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.AllAllies) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Legal Protection", "All allies gain {Block} Block. Gain {Evidence} Evidence.");
+        new CardLoc("Legal Protection", "All allies gain {Block:diff()} Block. Gain {Evidence} Evidence.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {

@@ -19,7 +19,7 @@ public sealed class ForgottenMemory : LawyerCard
     protected override PileType GetResultPileTypeForCardPlay() => PileType.Exhaust;
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Forgotten Memory", "Gain {Block} Block. Exhaust.");
+        new CardLoc("Forgotten Memory", "Gain {Block:diff()} Block. Exhaust.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay) =>
         await CommonActions.CardBlock(this, cardPlay);

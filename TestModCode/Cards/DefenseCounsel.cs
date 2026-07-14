@@ -21,16 +21,11 @@ public sealed class DefenseCounsel : LawyerCard
     public DefenseCounsel() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AllEnemies) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Defense Counsel", "Gain {Block} Block. Apply {Expose} Expose to ALL enemies.");
+        new CardLoc("Defense Counsel", "Gain {Block:diff()} Block. Apply {Expose} Expose to ALL enemies.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(
-            Owner.Creature,
-            DynamicVars.Block.BaseValue,
-            ValueProp.Move,
-            cardPlay,
-            false);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
         foreach (Creature enemy in this.GetTargets())
         {

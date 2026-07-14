@@ -19,7 +19,7 @@ public sealed class ClassAction : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Class Action", "Whenever you gain Evidence this combat, this card costs 2 less. Deal {Damage} damage to ALL enemies.");
+        new CardLoc("Class Action", "Whenever you gain Evidence this combat, this card costs 2 less. Deal {Damage:diff()} damage to ALL enemies.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

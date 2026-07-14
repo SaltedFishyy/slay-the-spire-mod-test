@@ -24,7 +24,7 @@ public sealed class CaseBuild : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Case Build", "Deal {Damage} damage. If you have less than {EvidenceThreshold} Evidence, gain {EvidenceGain} Evidence.");
+        new CardLoc("Case Build", "Deal {Damage:diff()} damage. If you have less than {EvidenceThreshold} Evidence, gain {EvidenceGain} Evidence.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

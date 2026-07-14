@@ -8,9 +8,9 @@ public sealed class JunimoJuicePower : CustomPowerModel
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    public override string CustomPackedIconPath => "res://Resources/Images/UI/Evidence.png";
-    public override string CustomBigIconPath => "res://Resources/Images/UI/Evidence.png";
-    public override string CustomBigBetaIconPath => "res://Resources/Images/UI/Evidence.png";
+    public override string CustomPackedIconPath => "res://Resources/Images/Power/JunimoJuicePower.png";
+    public override string CustomBigIconPath => "res://Resources/Images/Power/JunimoJuicePower.png";
+    public override string CustomBigBetaIconPath => "res://Resources/Images/Power/JunimoJuicePower.png";
 
     public override List<(string, string)>? Localization =>
         new PowerLoc(

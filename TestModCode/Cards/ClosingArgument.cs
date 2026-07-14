@@ -30,7 +30,7 @@ public sealed class ClosingArgument : LawyerCard
     }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Closing Argument", "Spend {EvidenceCost} Evidence. Deal {Damage} damage. Apply {Weak} Weak.");
+        new CardLoc("Closing Argument", "Spend {EvidenceCost} Evidence. Deal {Damage:diff()} damage. Apply {Weak} Weak.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

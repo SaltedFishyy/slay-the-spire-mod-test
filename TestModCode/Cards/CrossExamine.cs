@@ -19,7 +19,7 @@ public sealed class CrossExamine : LawyerCard
     public override List<(string, string)>? Localization =>
         new CardLoc(
             "Cross Examine",
-            "{IfUpgraded:show:Deal damage equal to 12 + 70% of your current Evidence.|Deal damage equal to 10 + 50% of your current Evidence.} Total: {CalculatedDamage}.");
+            "{IfUpgraded:show:Deal damage equal to 12 + 70% of your current Evidence.|Deal damage equal to 10 + 50% of your current Evidence.} Total: {CalculatedDamage:diff()}.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {

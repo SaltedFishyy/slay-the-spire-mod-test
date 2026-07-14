@@ -19,7 +19,7 @@ public sealed class LegalShield : LawyerCard
     public LegalShield() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Legal Shield", "Gain {Block} Block. Gain {Evidence} Evidence.");
+        new CardLoc("Legal Shield", "Gain {Block:diff()} Block. Gain {Evidence} Evidence.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {

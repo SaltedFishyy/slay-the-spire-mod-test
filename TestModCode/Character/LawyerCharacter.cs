@@ -17,6 +17,7 @@ public sealed class LawyerCharacter : PlaceholderCharacterModel
     public static readonly Color Color = new("612D53");
 
     public override Color NameColor => LawyerCharacter.Color;
+    public override Color MapDrawingColor => LawyerCharacter.Color;
     public override CharacterGender Gender => CharacterGender.Neutral;
     public override int StartingHp => 80;
     // 游戏内左上角、统计界面、每日挑战和历史记录等位置使用的 Lawyer 头像纹理。
@@ -29,9 +30,6 @@ public sealed class LawyerCharacter : PlaceholderCharacterModel
 
     public override string? CustomCharacterSelectIconPath =>
         "res://Resources/Images/Character/CharacterMiniIcon.png";
-
-    public override string CustomCharacterSelectBg =>
-        "res://Resources/Scenes/LawyerSelectBackground.tscn";
 
     public override string CustomEnergyCounterPath =>
         "res://Resources/Scenes/LawyerEnergyCounter.tscn";

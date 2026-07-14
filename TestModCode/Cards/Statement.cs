@@ -24,7 +24,7 @@ public sealed class Statement : LawyerCard
     public override List<(string, string)>? Localization =>
         new CardLoc(
             "Statement",
-            "Deal damage equal to {CalculationBase} + your current Evidence. Total: {CalculatedDamage}.");
+            "Deal damage equal to {CalculationBase} + your current Evidence. Total: {CalculatedDamage:diff()}.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

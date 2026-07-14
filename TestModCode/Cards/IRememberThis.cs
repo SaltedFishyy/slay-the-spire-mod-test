@@ -19,7 +19,7 @@ public sealed class IRememberThis : LawyerCard
     public IRememberThis() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("I Remember This", "Gain {Block} Block. Gain {Evidence} Evidence.");
+        new CardLoc("I Remember This", "Gain {Block:diff()} Block. Gain {Evidence} Evidence.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {

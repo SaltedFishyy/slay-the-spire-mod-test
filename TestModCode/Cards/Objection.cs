@@ -35,7 +35,7 @@ public sealed class Objection : LawyerCard
     protected override PileType GetResultPileTypeForCardPlay() => PileType.Hand;
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("OBJECTION!", "Spend {EvidenceCost} Evidence. Give any player {Block} Block. Return this card to your hand.");
+        new CardLoc("OBJECTION!", "Spend {EvidenceCost} Evidence. Give any player {Block:diff()} Block. Return this card to your hand.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {
@@ -48,7 +48,7 @@ public sealed class Objection : LawyerCard
         {
             return;
         }
-        await CreatureCmd.GainBlock(target, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay, false);
+        await CreatureCmd.GainBlock(target, DynamicVars.Block, cardPlay);
     }
 
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(2);

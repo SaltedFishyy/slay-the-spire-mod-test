@@ -34,7 +34,7 @@ public sealed class GuiltyAsCharged : LawyerCard
     public GuiltyAsCharged() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Guilty as Charged", "Spend {EvidenceCost} Evidence. Deal {Damage} damage.");
+        new CardLoc("Guilty as Charged", "Spend {EvidenceCost} Evidence. Deal {Damage:diff()} damage.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {

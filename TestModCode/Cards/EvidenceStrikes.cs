@@ -26,7 +26,7 @@ public sealed class EvidenceStrikes : LawyerCard
     public EvidenceStrikes() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Evidence Strikes!", "Spend 2 Evidence. Deal {Damage} damage.");
+        new CardLoc("Evidence Strikes!", "Spend 2 Evidence. Deal {Damage:diff()} damage.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {

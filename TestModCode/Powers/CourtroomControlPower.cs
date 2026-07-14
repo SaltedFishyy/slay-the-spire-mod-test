@@ -13,9 +13,9 @@ public sealed class CourtroomControlPower : CustomPowerModel
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    public override string CustomPackedIconPath => "res://Resources/Images/UI/Evidence.png";
-    public override string CustomBigIconPath => "res://Resources/Images/UI/Evidence.png";
-    public override string CustomBigBetaIconPath => "res://Resources/Images/UI/Evidence.png";
+    public override string CustomPackedIconPath => "res://Resources/Images/Power/CourtroomControlPower.png";
+    public override string CustomBigIconPath => "res://Resources/Images/Power/CourtroomControlPower.png";
+    public override string CustomBigBetaIconPath => "res://Resources/Images/Power/CourtroomControlPower.png";
     public override List<(string, string)>? Localization =>
         new PowerLoc("Courtroom Control", "The first time you spend Evidence each turn, draw {Amount} card.", "The first time you spend Evidence each turn, draw {Amount} card.");
 

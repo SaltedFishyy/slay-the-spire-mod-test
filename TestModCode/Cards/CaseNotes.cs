@@ -24,7 +24,7 @@ public sealed class CaseNotes : LawyerCard
     public CaseNotes() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Case Notes", "Gain {Block} Block. Gain {Evidence} Evidence. Choose 1 card in your hand to Retain.");
+        new CardLoc("Case Notes", "Gain {Block:diff()} Block. Gain {Evidence} Evidence. Choose 1 card in your hand to Retain.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {

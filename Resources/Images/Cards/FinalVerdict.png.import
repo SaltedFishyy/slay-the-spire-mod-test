@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jy3pbnr7a836"
-path="res://.godot/imported/Evidence.png-2d0af2da8c26230e79417efe22032ae6.ctex"
+uid="uid://c7mhlmvqva447"
+path="res://.godot/imported/FinalVerdict.png-31d03ae4eb237e22e08f1563fd324ac3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Images/UI/Evidence.png"
-dest_files=["res://.godot/imported/Evidence.png-2d0af2da8c26230e79417efe22032ae6.ctex"]
+source_file="res://Resources/Images/Cards/FinalVerdict.png"
+dest_files=["res://.godot/imported/FinalVerdict.png-31d03ae4eb237e22e08f1563fd324ac3.ctex"]
 
 [params]
 

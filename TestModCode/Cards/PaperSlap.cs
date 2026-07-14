@@ -17,7 +17,7 @@ public sealed class PaperSlap : LawyerCard
         (Owner?.Creature is not { } creature || EvidenceHelper.Get(creature) >= DynamicVars["EvidenceCost"].IntValue);
     public PaperSlap() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
     public override List<(string, string)>? Localization =>
-        new CardLoc("Paper Slap", "Spend {EvidenceCost} Evidence. Deal {Damage} damage. Apply {Expose} Expose and {Weak} Weak.");
+        new CardLoc("Paper Slap", "Spend {EvidenceCost} Evidence. Deal {Damage:diff()} damage. Apply {Expose} Expose and {Weak} Weak.");
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
