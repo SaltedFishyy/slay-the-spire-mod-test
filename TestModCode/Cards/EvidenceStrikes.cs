@@ -11,6 +11,9 @@ namespace TestMod.TestModCode.Cards;
 // 普通攻击：造成固定伤害，并失去2点证据。
 public sealed class EvidenceStrikes : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/EvidenceStrikes.png";
+        
     private const int EvidenceCost = 2;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

@@ -9,6 +9,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class ForgottenMemory : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/ForgottenMemory.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(10, ValueProp.Move)];
 

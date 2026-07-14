@@ -8,6 +8,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class Crescendo : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/Crescendo.png";
     public Crescendo() : base(3, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy) { }
 
     protected override PileType GetResultPileTypeForCardPlay() => PileType.Exhaust;

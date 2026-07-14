@@ -1,5 +1,5 @@
 using BaseLib.Abstracts;
-using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -30,22 +30,25 @@ public sealed class Objection : LawyerCard
         }
     }
 
-    public Objection() : base(0, CardType.Skill, CardRarity.Rare, TargetType.AnyAlly) { }
+    public Objection() : base(0, CardType.Skill, CardRarity.Rare, TargetType.AnyPlayer) { }
 
     protected override PileType GetResultPileTypeForCardPlay() => PileType.Hand;
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("OBJECTION!", "Spend {EvidenceCost} Evidence. Give an ally {Block} Block. Return this card to your hand.");
+        new CardLoc("OBJECTION!", "Spend {EvidenceCost} Evidence. Give any player {Block} Block. Return this card to your hand.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
+        if (Owner?.Creature is not { } owner)
+            return;
+
+        var target = cardPlay.Target ?? owner;
         bool paid = await EvidenceHelper.Spend(context, Owner.Creature, DynamicVars["EvidenceCost"].IntValue, this);
         if (!paid)
         {
             return;
         }
-        await CommonActions.CardBlock(this, cardPlay);
+        await CreatureCmd.GainBlock(target, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay, false);
     }
 
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(2);

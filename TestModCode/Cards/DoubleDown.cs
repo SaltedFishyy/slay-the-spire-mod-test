@@ -30,7 +30,7 @@ public sealed class DoubleDown : LawyerCard
         }
     }
 
-    public DoubleDown() : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+    public DoubleDown() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     public override List<(string, string)>? Localization =>
         new CardLoc(

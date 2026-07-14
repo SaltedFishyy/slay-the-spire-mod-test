@@ -12,6 +12,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class PocketCart : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/PocketCart.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Cards", 1)];
 

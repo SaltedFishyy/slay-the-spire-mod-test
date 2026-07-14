@@ -8,6 +8,9 @@ namespace TestMod.TestModCode.Powers;
 
 public sealed class DeferredEvidencePower : CustomPowerModel
 {
+    // Power models are cloned from prototypes, so allocate mutable state lazily per combat instance.
+    private List<int>? _pendingReturns;
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
     public override string CustomPackedIconPath => "res://Resources/Images/UI/Evidence.png";
@@ -15,12 +18,23 @@ public sealed class DeferredEvidencePower : CustomPowerModel
     public override string CustomBigBetaIconPath => "res://Resources/Images/UI/Evidence.png";
     public override List<(string, string)>? Localization =>
         new PowerLoc("Deferred Evidence", "At the start of your next turn, gain {Amount} Evidence.", "At the start of your next turn, gain {Amount} Evidence.");
+
+    public void AddPendingReturn(int amount)
+    {
+        if (amount > 0)
+            (_pendingReturns ??= []).Add(amount);
+    }
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext context, Player player)
     {
         if (Owner.Player != player || Amount <= 0) return;
-        int amount = Amount;
+
+        List<int> pending = _pendingReturns is { Count: > 0 } returns ? [.. returns] : [Amount];
+        _pendingReturns?.Clear();
         Flash();
-        await EvidenceHelper.Gain(context, Owner, amount);
+        foreach (int amount in pending)
+            await EvidenceHelper.Gain(context, Owner, amount);
+
         await PowerCmd.Remove(this);
     }
 }

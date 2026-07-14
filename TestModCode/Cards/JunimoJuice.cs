@@ -10,18 +10,23 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class JunimoJuice : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/JunimoJuice.png";
+        
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        IsUpgraded ? [CardKeyword.Retain] : [];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("MaxEnergy", 1)];
 
     public JunimoJuice() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
-    protected override PileType GetResultPileTypeForCardPlay() =>
-        IsUpgraded ? PileType.Discard : PileType.Exhaust;
+    protected override PileType GetResultPileTypeForCardPlay() => PileType.Exhaust;
 
     public override List<(string, string)>? Localization =>
         new CardLoc(
             "Junimo Juice",
-            "Increase your max Energy by {MaxEnergy} this combat.{IfUpgraded:show:| Exhaust.}");
+            "{IfUpgraded:show:Retain. |}Increase your max Energy by {MaxEnergy} this combat. Exhaust.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay) =>
         await PowerCmd.Apply<JunimoJuicePower>(

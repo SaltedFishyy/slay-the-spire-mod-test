@@ -10,6 +10,8 @@ namespace TestMod.TestModCode.Cards;
 // 稀有攻击：失去全部 Evidence，并造成失去数量两倍的伤害。
 public sealed class FinalVerdict : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/FinalVerdict.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Multiplier", 2)

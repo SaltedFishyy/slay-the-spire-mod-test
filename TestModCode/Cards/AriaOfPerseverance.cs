@@ -10,6 +10,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class AriaOfPerseverance : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/AriaOfPerseverance.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Weak", 1),

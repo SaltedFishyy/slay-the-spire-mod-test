@@ -16,13 +16,20 @@ public static class EvidenceHelper
         if (amount <= 0)
             return;
 
-        int courtroomBonus = Math.Max(0, creature.GetPower<CourtroomControlPower>()?.Amount ?? 0);
-        int nathanStacks = Math.Max(0, creature.GetPower<NathanPower>()?.Amount ?? 0);
-        int nathanBonus = (int)Math.Floor(amount * 0.5m * nathanStacks);
-        int totalAmount = amount + courtroomBonus + nathanBonus;
+        int previousAmount = Get(creature);
+        int nathanBonus = Math.Max(0, creature.GetPower<NathanPower>()?.Amount ?? 0);
+        int totalAmount = amount + nathanBonus;
 
         await PowerCmd.Apply<EvidencePower>(context, creature, totalAmount, creature, source);
+        int actualGain = Math.Max(0, Get(creature) - previousAmount);
+        if (actualGain <= 0)
+            return;
+
         await PowerCmd.Apply<EvidenceGainTrackerPower>(context, creature, 1, creature, source);
+
+        KennyPower? kenny = creature.GetPower<KennyPower>();
+        if (kenny is not null)
+            await kenny.RecordEvidenceGain(context, actualGain);
     }
 
     // Lose 不属于主动支付，因此不会写入本回合 spend tracker。
@@ -49,11 +56,18 @@ public static class EvidenceHelper
         if (amount == 0)
             return true;
 
-        await Lose(context, creature, amount, source);
-        EvidenceSpendTrackerPower tracker =
-            await PowerCmd.Apply<EvidenceSpendTrackerPower>(context, creature, 1, creature, source)
-            ?? throw new InvalidOperationException("Failed to apply the Evidence spend tracker.");
-        tracker.RecordSpendThisTurn(amount);
+        int lost = await Lose(context, creature, amount, source);
+        if (lost != amount)
+            return false;
+
+        EvidenceSpendTrackerPower? tracker =
+            await PowerCmd.Apply<EvidenceSpendTrackerPower>(context, creature, 1, creature, source);
+        tracker?.RecordSpendThisTurn(amount);
+
+        CourtroomControlPower? courtroom = creature.GetPower<CourtroomControlPower>();
+        if (courtroom is not null)
+            await courtroom.AfterEvidenceSpent(context);
+
         return true;
     }
 }

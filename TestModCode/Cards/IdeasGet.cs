@@ -11,6 +11,8 @@ namespace TestMod.TestModCode.Cards;
 // 普通攻击牌占位实现：造成伤害后获得 Evidence。
 public sealed class IdeasGet : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/IdeasGet.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(8, ValueProp.Move),
