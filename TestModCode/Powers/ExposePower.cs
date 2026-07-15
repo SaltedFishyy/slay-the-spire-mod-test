@@ -55,6 +55,11 @@ public sealed class ExposePower : CustomPowerModel
             return;
         }
 
+        if (cardSource is IExposeTriggerObserver observer)
+        {
+            observer.OnExposeTriggered(target);
+        }
+
         if (!target.IsAlive)
         {
             return;

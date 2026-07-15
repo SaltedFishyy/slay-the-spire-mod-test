@@ -9,6 +9,8 @@ namespace TestMod.TestModCode.Powers;
 public sealed class EvidenceGainTrackerPower : CustomPowerModel
 {
     private const int ClassActionDiscountPerGain = 2;
+    private int _gainedThisTurn;
+    private int _trackedTurnNumber = -1;
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -22,6 +24,30 @@ public sealed class EvidenceGainTrackerPower : CustomPowerModel
             "Tracks Evidence gained during this combat.");
 
     public int GainCountThisCombat => Amount;
+
+    public int EvidenceGainedThisTurn
+    {
+        get
+        {
+            int currentTurn = Owner.Player?.PlayerCombatState?.TurnNumber ?? -1;
+            return currentTurn == _trackedTurnNumber ? _gainedThisTurn : 0;
+        }
+    }
+
+    public void RecordGainThisTurn(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        int currentTurn = Owner.Player?.PlayerCombatState?.TurnNumber ?? -1;
+        if (currentTurn != _trackedTurnNumber)
+        {
+            _trackedTurnNumber = currentTurn;
+            _gainedThisTurn = 0;
+        }
+
+        _gainedThisTurn += amount;
+    }
 
     public override bool TryModifyEnergyCostInCombat(
         CardModel card,

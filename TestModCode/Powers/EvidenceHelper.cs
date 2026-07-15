@@ -25,7 +25,9 @@ public static class EvidenceHelper
         if (actualGain <= 0)
             return;
 
-        await PowerCmd.Apply<EvidenceGainTrackerPower>(context, creature, 1, creature, source);
+        EvidenceGainTrackerPower? gainTracker =
+            await PowerCmd.Apply<EvidenceGainTrackerPower>(context, creature, 1, creature, source);
+        gainTracker?.RecordGainThisTurn(actualGain);
 
         KennyPower? kenny = creature.GetPower<KennyPower>();
         if (kenny is not null)
