@@ -29,9 +29,11 @@ public static class EvidenceHelper
             await PowerCmd.Apply<EvidenceGainTrackerPower>(context, creature, 1, creature, source);
         gainTracker?.RecordGainThisTurn(actualGain);
 
-        KennyPower? kenny = creature.GetPower<KennyPower>();
-        if (kenny is not null)
-            await kenny.RecordEvidenceGain(context, actualGain);
+        int kennyDrawCount = creature.Powers
+            .OfType<KennyProgressPower>()
+            .Sum(kenny => kenny.RecordEvidenceGain(actualGain));
+        if (kennyDrawCount > 0 && creature.Player is { } player)
+            await CardPileCmd.Draw(context, kennyDrawCount, player);
     }
 
     // Lose 不属于主动支付，因此不会写入本回合 spend tracker。

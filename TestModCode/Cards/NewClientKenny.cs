@@ -9,6 +9,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class NewClientKenny : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/NewClientKenny.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("EvidenceThreshold", 7)];
 
@@ -18,13 +20,27 @@ public sealed class NewClientKenny : LawyerCard
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        KennyPower? power = await PowerCmd.Apply<KennyPower>(
-            context,
-            Owner.Creature,
-            1,
-            Owner.Creature,
-            this);
-        power?.AddTracker(DynamicVars["EvidenceThreshold"].IntValue);
+        KennyProgressPower? power;
+        if (IsUpgraded)
+        {
+            power = await PowerCmd.Apply<KennyUpgradedPower>(
+                context,
+                Owner.Creature,
+                1,
+                Owner.Creature,
+                this);
+        }
+        else
+        {
+            power = await PowerCmd.Apply<KennyPower>(
+                context,
+                Owner.Creature,
+                1,
+                Owner.Creature,
+                this);
+        }
+
+        power?.InitializeProgress();
     }
 
     protected override void OnUpgrade() => DynamicVars["EvidenceThreshold"].UpgradeValueBy(-2);

@@ -11,6 +11,8 @@ namespace TestMod.TestModCode.Cards;
 // 稀有攻击：额外主动支付 Evidence，并触发 spend tracker。
 public sealed class GuiltyAsCharged : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/GuiltyAsCharged.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(44, ValueProp.Move),

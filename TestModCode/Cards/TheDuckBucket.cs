@@ -10,6 +10,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class TheDuckBucket : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/TheDuckBucket.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Intangible", 1)];
 

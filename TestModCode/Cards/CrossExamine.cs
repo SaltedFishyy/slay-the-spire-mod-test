@@ -10,6 +10,8 @@ namespace TestMod.TestModCode.Cards;
 // 非普通攻击：基础伤害加当前 Evidence 的指定比例，最终结果向下取整。
 public sealed class CrossExamine : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/CrossExamine.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         MakeCalculatedDamage(10, (card, _) => Math.Floor(
             EvidenceHelper.Get(card.Owner?.Creature) * (card.IsUpgraded ? 0.7m : 0.5m)));

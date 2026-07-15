@@ -6,48 +6,46 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace TestMod.TestModCode.Powers;
 
-public sealed class KennyPower : CustomPowerModel
+public abstract class KennyProgressPower : CustomPowerModel
 {
-    private sealed class ProgressTracker(int threshold)
-    {
-        public int Threshold { get; } = threshold;
-        public int Progress { get; set; }
-    }
-
-    // Power models are cloned from prototypes, so allocate mutable state lazily per combat instance.
-    private List<ProgressTracker>? _trackers;
+    protected abstract int Threshold { get; }
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    public override string CustomPackedIconPath => "res://Resources/Images/UI/Evidence.png";
-    public override string CustomBigIconPath => "res://Resources/Images/UI/Evidence.png";
-    public override string CustomBigBetaIconPath => "res://Resources/Images/UI/Evidence.png";
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    public override string CustomPackedIconPath => "res://Resources/Images/Power/KennyPower.png";
+    public override string CustomBigIconPath => "res://Resources/Images/Power/KennyPower.png";
+    public override string CustomBigBetaIconPath => "res://Resources/Images/Power/KennyPower.png";
     public override List<(string, string)>? Localization =>
-        new PowerLoc("New Client: Kenny", "Tracks Evidence gained for each Kenny. Yea Kenny is the best.", "Tracks Evidence gained for each Kenny. Actually, Kenny is the best best");
+        new PowerLoc(
+            "New Client: Kenny",
+            $"Whenever you gain a total of {Threshold} Evidence, draw 1 card. The counter shows current progress.",
+            $"Whenever you gain a total of {Threshold} Evidence, draw 1 card. The counter shows current progress.");
 
-    public void AddTracker(int threshold)
+    public void InitializeProgress() => SetAmount(0);
+
+    public int RecordEvidenceGain(int amount)
     {
-        if (threshold > 0)
-            (_trackers ??= []).Add(new ProgressTracker(threshold));
+        if (amount <= 0)
+            return 0;
+
+        int accumulated = Amount + amount;
+        int drawCount = accumulated / Threshold;
+        SetAmount(accumulated % Threshold);
+
+        if (drawCount > 0)
+            Flash();
+
+        return drawCount;
     }
+}
 
-    public async Task RecordEvidenceGain(PlayerChoiceContext context, int amount)
-    {
-        if (amount <= 0 || _trackers is not { Count: > 0 } trackers || Owner.Player is not { } player)
-            return;
+public sealed class KennyPower : KennyProgressPower
+{
+    protected override int Threshold => 7;
+}
 
-        int drawCount = 0;
-        foreach (ProgressTracker tracker in trackers)
-        {
-            int accumulated = tracker.Progress + amount;
-            drawCount += accumulated / tracker.Threshold;
-            tracker.Progress = accumulated % tracker.Threshold;
-        }
-
-        if (drawCount <= 0)
-            return;
-
-        Flash();
-        await CardPileCmd.Draw(context, drawCount, player);
-    }
+public sealed class KennyUpgradedPower : KennyProgressPower
+{
+    protected override int Threshold => 5;
 }

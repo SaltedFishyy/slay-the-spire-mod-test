@@ -8,6 +8,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class DiscoveryPhase : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/DiscoveryPhase.png";
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Evidence", 20)];
     public DiscoveryPhase() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
     public override List<(string, string)>? Localization => new CardLoc("Discovery Phase", "Gain {Evidence} Evidence.");

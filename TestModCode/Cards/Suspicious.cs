@@ -8,6 +8,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class Suspicious : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/Suspicious.png";
     public Suspicious() : base(0, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy) { }
     protected override PileType GetResultPileTypeForCardPlay() => IsUpgraded ? PileType.Discard : PileType.Exhaust;
     public override List<(string, string)>? Localization =>

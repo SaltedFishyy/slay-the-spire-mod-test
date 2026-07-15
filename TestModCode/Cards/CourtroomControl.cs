@@ -9,6 +9,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class CourtroomControl : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/CourtroomControl.png";
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         IsUpgraded ? [CardKeyword.Retain] : [];
 

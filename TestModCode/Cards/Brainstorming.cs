@@ -11,6 +11,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class Brainstorming : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/Brainstorming.png";
     public Brainstorming() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
     public override List<(string, string)>? Localization =>
         new CardLoc("Brainstorming", "Gain Block equal to half your Evidence. End your turn. Next turn, gain extra Energy equal to your base Energy.");

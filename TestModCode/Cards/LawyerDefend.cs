@@ -9,6 +9,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class LawyerDefend : LawyerCard
 {
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
+
     public override string? CustomPortraitPath =>
         "res://Resources/Images/Cards/LawyerDefend.png";
 
