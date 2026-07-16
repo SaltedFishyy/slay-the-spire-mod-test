@@ -16,7 +16,7 @@ public sealed class CourtroomControl : LawyerCard
 
     public CourtroomControl() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
     public override List<(string, string)>? Localization =>
-        new CardLoc("Courtroom Control", "{IfUpgraded:show:Retain. |}The first time you spend Evidence each turn, draw 1 card.");
+        new CardLoc("Courtroom Control", "{IfUpgraded:show:Retain. |}The first time you gain Evidence each turn, draw 1 card.");
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay) =>
         await PowerCmd.Apply<CourtroomControlPower>(context, Owner.Creature, 1, Owner.Creature, this);
     protected override void OnUpgrade() { }

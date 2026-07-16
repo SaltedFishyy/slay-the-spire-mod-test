@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using TestMod.TestModCode.Powers;
 
@@ -20,8 +21,13 @@ public sealed class CollectingEvidence : LawyerCard
     {
     }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DynamicVar("Evidence", 3)
+    ];
+
     public override List<(string, string)>? Localization =>
-        new CardLoc("Collecting Evidence", "Exhaust a card. Gain 3 Evidence.");
+        new CardLoc("Collecting Evidence", "Exhaust a card. Gain {Evidence} Evidence.");
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -40,12 +46,14 @@ public sealed class CollectingEvidence : LawyerCard
             return;
         }
 
-        // 必须先完成消耗，再给予 3 层 Evidence，保持卡面描述的结算顺序。
+        // 必须先完成消耗，再按当前卡牌数值给予 Evidence，保持卡面描述的结算顺序。
         await CardCmd.Exhaust(choiceContext, selectedCard);
         await EvidenceHelper.Gain(
             choiceContext,
             Owner.Creature,
-            3,
+            DynamicVars["Evidence"].IntValue,
             this);
     }
+
+    protected override void OnUpgrade() => DynamicVars["Evidence"].UpgradeValueBy(2);
 }

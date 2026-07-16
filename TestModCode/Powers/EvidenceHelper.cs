@@ -29,6 +29,10 @@ public static class EvidenceHelper
             await PowerCmd.Apply<EvidenceGainTrackerPower>(context, creature, 1, creature, source);
         gainTracker?.RecordGainThisTurn(actualGain);
 
+        CourtroomControlPower? courtroom = creature.GetPower<CourtroomControlPower>();
+        if (courtroom is not null)
+            await courtroom.AfterEvidenceGained(context);
+
         int kennyDrawCount = creature.Powers
             .OfType<KennyProgressPower>()
             .Sum(kenny => kenny.RecordEvidenceGain(actualGain));
@@ -67,10 +71,6 @@ public static class EvidenceHelper
         EvidenceSpendTrackerPower? tracker =
             await PowerCmd.Apply<EvidenceSpendTrackerPower>(context, creature, 1, creature, source);
         tracker?.RecordSpendThisTurn(amount);
-
-        CourtroomControlPower? courtroom = creature.GetPower<CourtroomControlPower>();
-        if (courtroom is not null)
-            await courtroom.AfterEvidenceSpent(context);
 
         return true;
     }

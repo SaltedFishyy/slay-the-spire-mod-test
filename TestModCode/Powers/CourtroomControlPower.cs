@@ -17,7 +17,7 @@ public sealed class CourtroomControlPower : CustomPowerModel
     public override string CustomBigIconPath => "res://Resources/Images/Power/CourtroomControlPower.png";
     public override string CustomBigBetaIconPath => "res://Resources/Images/Power/CourtroomControlPower.png";
     public override List<(string, string)>? Localization =>
-        new PowerLoc("Courtroom Control", "The first time you spend Evidence each turn, draw {Amount} card.", "The first time you spend Evidence each turn, draw {Amount} card.");
+        new PowerLoc("Courtroom Control", "The first time you gain Evidence each turn, draw {Amount} card.", "The first time you gain Evidence each turn, draw {Amount} card.");
 
     public override Task AfterPlayerTurnStart(PlayerChoiceContext context, Player player)
     {
@@ -30,7 +30,7 @@ public sealed class CourtroomControlPower : CustomPowerModel
         return Task.CompletedTask;
     }
 
-    public async Task AfterEvidenceSpent(PlayerChoiceContext context)
+    public async Task AfterEvidenceGained(PlayerChoiceContext context)
     {
         if (Owner.Player is not { } player || Amount <= 0)
             return;
