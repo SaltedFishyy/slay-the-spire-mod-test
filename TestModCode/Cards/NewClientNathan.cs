@@ -12,7 +12,7 @@ public sealed class NewClientNathan : LawyerCard
     public override string? CustomPortraitPath =>
         "res://Resources/Images/Cards/NewClientNathan.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar("BonusEvidence", 2)];
+        [new DynamicVar("BonusEvidence", 3)];
 
     public NewClientNathan() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self) { }
     public override List<(string, string)>? Localization =>

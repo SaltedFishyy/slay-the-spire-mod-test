@@ -12,6 +12,8 @@ namespace TestMod.TestModCode.Cards;
 // Spend Evidence as an additional cost, then deal fixed damage and apply Weak.
 public sealed class ClosingArgument : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/ClosingArgument.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(10, ValueProp.Move),

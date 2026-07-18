@@ -7,18 +7,21 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TestMod.TestModCode.Cards;
 
-public sealed class PaperCut : LawyerCard
+public sealed class YousaidWhat : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/YousaidWhat.png";
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(2, ValueProp.Move),
         new RepeatVar(3)
     ];
 
-    public PaperCut() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
+    public YousaidWhat() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
     public override List<(string, string)>? Localization =>
-        new CardLoc("Paper Cut", "Deal {Damage:diff()} damage {Repeat} times.");
+        new CardLoc("You said What?", "Deal {Damage:diff()} damage {Repeat} times.");
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {

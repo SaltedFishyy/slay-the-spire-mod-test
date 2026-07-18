@@ -11,6 +11,9 @@ namespace TestMod.TestModCode.Cards;
 // Evidence 较低时，在造成伤害后补充 Evidence。
 public sealed class CaseBuild : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/CaseBuild.png";
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(13, ValueProp.Move),

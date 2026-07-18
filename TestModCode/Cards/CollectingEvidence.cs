@@ -40,14 +40,13 @@ public sealed class CollectingEvidence : LawyerCard
                 this))
             .FirstOrDefault();
 
-        if (selectedCard is null)
+        if (selectedCard is not null)
         {
-            // 没有其他手牌可选时，结束效果且不获得 Evidence。
-            return;
+            // 有其他手牌时，先 Exhaust 选中的牌。
+            await CardCmd.Exhaust(choiceContext, selectedCard);
         }
 
-        // 必须先完成消耗，再按当前卡牌数值给予 Evidence，保持卡面描述的结算顺序。
-        await CardCmd.Exhaust(choiceContext, selectedCard);
+        // 然后获得 Evidence。
         await EvidenceHelper.Gain(
             choiceContext,
             Owner.Creature,

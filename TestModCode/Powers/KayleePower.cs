@@ -10,11 +10,12 @@ namespace TestMod.TestModCode.Powers;
 
 public sealed class KayleePower : CustomPowerModel
 {
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    public override string CustomPackedIconPath => "res://Resources/Images/UI/Evidence.png";
-    public override string CustomBigIconPath => "res://Resources/Images/UI/Evidence.png";
-    public override string CustomBigBetaIconPath => "res://Resources/Images/UI/Evidence.png";
+    public override string CustomPackedIconPath => "res://Resources/Images/Power/KayleePower.png";
+    public override string CustomBigIconPath => "res://Resources/Images/Power/KayleePower.png";
+    public override string CustomBigBetaIconPath => "res://Resources/Images/Power/KayleePower.png";
     public override List<(string, string)>? Localization =>
         new PowerLoc("New Client: Kaylee", "Whenever you apply Weak to an enemy, apply the same amount of Expose.", "Whenever you apply Weak to an enemy, apply the same amount of Expose.");
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext context, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)

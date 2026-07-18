@@ -10,6 +10,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class RespectMe : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/RespectMe.png";
     protected override bool HasEnergyCostX => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

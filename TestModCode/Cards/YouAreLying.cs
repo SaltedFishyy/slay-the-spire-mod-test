@@ -10,6 +10,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class YouAreLying : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/YouAreLying.png";
     private bool _isResolving;
     private bool _targetHadExpose;
 
@@ -25,7 +27,7 @@ public sealed class YouAreLying : LawyerCard
     public override List<(string, string)>? Localization =>
         new CardLoc(
             "YOU ARE LYING",
-            "Deal {CalculationBase} damage. If the enemy has Expose, deal {CalculationBase} additional damage. Total: {CalculatedDamage:diff()}.");
+            "Deal {CalculationBase} damage. Deal double if enemy has Expose. Total: {CalculatedDamage:diff()}.");
 
     private bool ShouldAddBonus(Creature? target) =>
         _isResolving ? _targetHadExpose : ExposeHelper.Get(target) > 0;
@@ -48,5 +50,9 @@ public sealed class YouAreLying : LawyerCard
         }
     }
 
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3);
+    protected override void OnUpgrade()
+    {
+        EnergyCost.UpgradeBy(-1);
+        DynamicVars.CalculationBase.UpgradeValueBy(3);
+    }
 }

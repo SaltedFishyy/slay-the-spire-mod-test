@@ -22,14 +22,14 @@ public sealed class LawyerCharacter : PlaceholderCharacterModel
     public override int StartingHp => 80;
     // 游戏内左上角、统计界面、每日挑战和历史记录等位置使用的 Lawyer 头像纹理。
     public override string? CustomIconTexturePath =>
-        "res://Resources/Images/Character/LawyerProfile.png";
+        "res://Resources/Images/Character/CharacterMiniIcon.png";
 
     // 地图上的角色标记以及多人模式表情轮盘使用的 Lawyer 头像。
     public override string? CustomMapMarkerPath =>
-        "res://Resources/Images/Character/LawyerProfile.png";
+        "res://Resources/Images/Character/CharacterMiniIcon.png";
 
     public override string? CustomCharacterSelectIconPath =>
-        "res://Resources/Images/Character/CharacterMiniIcon.png";
+        "res://Resources/Images/Character/portrait.png";
 
     public override string CustomEnergyCounterPath =>
         "res://Resources/Scenes/LawyerEnergyCounter.tscn";

@@ -15,12 +15,12 @@ public sealed class Brainstorming : LawyerCard
         "res://Resources/Images/Cards/Brainstorming.png";
     public Brainstorming() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
     public override List<(string, string)>? Localization =>
-        new CardLoc("Brainstorming", "Gain Block equal to half your Evidence. End your turn. Next turn, gain extra Energy equal to your base Energy.");
+        new CardLoc("Brainstorming", "Gain Block equal to half your Evidence. End your turn and gain 3 Energy next turn.");
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay cardPlay)
     {
         int block = EvidenceHelper.Get(Owner.Creature) / 2;
         await CreatureCmd.GainBlock(Owner.Creature, block, ValueProp.Move, cardPlay, false);
-        await PowerCmd.Apply<EnergyNextTurnPower>(context, Owner.Creature, Owner.MaxEnergy, Owner.Creature, this);
+        await PowerCmd.Apply<EnergyNextTurnPower>(context, Owner.Creature, 3, Owner.Creature, this);
         CombatManager.Instance.SetReadyToEndTurn(Owner, true, () => Task.CompletedTask);
     }
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);

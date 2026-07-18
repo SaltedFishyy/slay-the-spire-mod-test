@@ -60,16 +60,30 @@ public sealed class ExposePower : CustomPowerModel
             observer.OnExposeTriggered(target);
         }
 
+        List<Creature> playerCreatures = target.CombatState?.PlayerCreatures.ToList() ?? [];
+        foreach (Creature playerCreature in playerCreatures)
+        {
+            BigBrainPower? bigBrain = playerCreature.GetPower<BigBrainPower>();
+            if (bigBrain is null)
+                continue;
+
+            await bigBrain.OnExposeTriggered(choiceContext);
+        }
+
         if (!target.IsAlive)
         {
             return;
         }
 
+        int spotlightBonus = playerCreatures
+            .Select(creature => creature.GetPower<CourtroomSpotlightPower>()?.Amount ?? 0)
+            .Sum();
+
         // # Unpowered 且没有 cardSource，确保这 10 点 bonus damage 不会再次触发 Expose。
         await CreatureCmd.Damage(
             choiceContext,
             target,
-            BonusDamage,
+            BonusDamage + spotlightBonus,
             ValueProp.Unpowered | ValueProp.SkipHurtAnim,
             dealer,
             null);

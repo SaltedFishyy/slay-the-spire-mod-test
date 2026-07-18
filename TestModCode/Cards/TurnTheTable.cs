@@ -10,6 +10,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class TurnTheTable : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/TurnTheTable.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Weak", 1),

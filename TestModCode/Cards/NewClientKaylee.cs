@@ -8,6 +8,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class NewClientKaylee : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/NewClientKaylee.png";
     public NewClientKaylee() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
     public override List<(string, string)>? Localization =>
         new CardLoc("New Client: Kaylee", "Whenever you apply Weak to an enemy, apply the same amount of Expose.");

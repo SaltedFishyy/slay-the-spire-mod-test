@@ -9,6 +9,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class PressureWitness : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/PressureWitness.png";
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Weak", 2)];
     public PressureWitness() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy) { }
     protected override PileType GetResultPileTypeForCardPlay() => IsUpgraded ? PileType.Discard : PileType.Exhaust;

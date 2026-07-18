@@ -10,6 +10,8 @@ namespace TestMod.TestModCode.Cards;
 // X-cost attack: spend Evidence based on the actual X energy spent, then apply Expose.
 public sealed class DoubleDown : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/DoubleDown.png";
     protected override bool HasEnergyCostX => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

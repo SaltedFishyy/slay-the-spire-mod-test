@@ -11,6 +11,9 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class TalkTalkTalk : LawyerCard, IExposeTriggerObserver
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/TalkTalkTalk.png";
+
     private bool _isResolving;
     private int _exposeTriggers;
 

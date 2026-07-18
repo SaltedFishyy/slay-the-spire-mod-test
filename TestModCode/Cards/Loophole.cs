@@ -9,6 +9,9 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class Loophole : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/Loophole.png";
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [new DynamicVar("EvidenceCost", 5), new DynamicVar("Energy", 2)];
     protected override bool IsPlayable => base.IsPlayable &&

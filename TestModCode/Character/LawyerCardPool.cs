@@ -13,7 +13,7 @@ public sealed class LawyerCardPool : CustomCardPoolModel
     public override string BigEnergyIconPath =>
         "res://Resources/Images/UI/LawyerEnergy.png";
     public override string TextEnergyIconPath =>
-        "res://Resources/Images/UI/LawyerEnergy.png";
+        "res://Resources/Images/UI/Energytext.png";
 
     // Lawyer 是独立角色卡池，不属于无色卡池。
     public override bool IsColorless => false;

@@ -11,6 +11,8 @@ namespace TestMod.TestModCode.Cards;
 
 public sealed class RedirectQuestion : LawyerCard
 {
+    public override string? CustomPortraitPath =>
+        "res://Resources/Images/Cards/RedirectQuestion.png";
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("Weak", 1),
