@@ -112,7 +112,7 @@ Lawyer 是《Slay the Spire 2》的自定义律师角色模组。角色围绕 **
 
 ## Credits
 
-- Character design: **Kaylee Kim**
+- Character artwork: **Kaylee Kim**
 - Mod author and character design: **SaltedFishyy**
 - Framework: **BaseLib** by Alchyr and contributors
 - Slay the Spire 2 is developed by Mega Crit
